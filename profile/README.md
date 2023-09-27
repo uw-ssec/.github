@@ -12,7 +12,7 @@ The software is a redevelopment of existing FORTRAN codes and shell scripts deve
 
 #### Project base data
 
-SSEC Engineer(s): [Don Setiawan](@lsetiawan)
+SSEC Engineer(s): [Don Setiawan](https://github.com/lsetiawan)
 
 Short description: Advancing Research and Collaboration in Seafloor Deformation
 
@@ -40,7 +40,7 @@ NoisePy is a Python package designed for fast and easy computation of ambient no
 
 #### Project base data
 
-SSEC Engineer(s): [Carlos Garcia Jurado Suarez](@carlosgjs)
+SSEC Engineer(s): [Carlos Garcia Jurado Suarez](https://github.com/carlosgjs)
 
 Short description: Ambient Field Seismology in Python
 
@@ -68,7 +68,7 @@ Echopype is a package built to enable interoperability and scalability in ocean 
 
 #### Project base data
 
-SSEC Engineer(s): [Don Setiawan](@lsetiawan)
+SSEC Engineer(s): [Don Setiawan](https://github.com/lsetiawan)
 
 Short description: Enabling interoperability and scalability in ocean sonar data analysis.
 
@@ -96,7 +96,7 @@ Cerebral organoids are derived from induced or natural stem cells, including fro
 
 #### Project base data
 
-SSEC Engineer(s): [Cordero Core](@uwcdc), [Don Setiawan](@lsetiawan)
+SSEC Engineer(s): [Cordero Core](https://github.com/uwcdc), [Don Setiawan](https://github.com/lsetiawan)
 
 Short description: Collaborative Neurobiology Research Platform
 
@@ -118,7 +118,7 @@ SSEC is working with Conservation X Labs to build an easy-to-use platform that e
 
 #### Project base data
 
-SSEC Engineer(s): [Aniket Fadia](@aniketfadia96)
+SSEC Engineer(s): [Aniket Fadia](https://github.com/aniketfadia96)
 
 Short description: Democratizing Genetic Testing
 
