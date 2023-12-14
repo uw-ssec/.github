@@ -107,8 +107,13 @@ Project status: **Under Development**
 #### Development
 
 Programming language: Python, Github Codespaces
+</details>
 
 <!----------------------------->
+
+<details>
+<summary><h2>Graduated Projects</h2></summary>
+
 
 ### Neglected Diagnostics (neglected-diagnostics)
 
@@ -143,9 +148,3 @@ Git repository: [https://github.com/uw-ssec/neglected-diagnostics](https://githu
 </details>
 
 
-<details>
-<summary><h2>Graduated Projects</h2></summary>
-
-Coming soon!
-
-</details>
