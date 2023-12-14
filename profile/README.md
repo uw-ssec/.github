@@ -88,7 +88,12 @@ Git repository: [https://github.com/osoceanacoustics/echopype](https://github.co
 
 [![Contributors](https://contrib.rocks/image?repo=osoceanacoustics/echopype)](https://github.com/osoceanacoustics/echopype/graphs/contributors)
 
+</details>
+
 <!----------------------------->
+
+<details>
+<summary><h2>Graduated Projects</h2></summary>
 
 ### WetAI
 
@@ -107,13 +112,12 @@ Project status: **Under Development**
 #### Development
 
 Programming language: Python, Github Codespaces
-</details>
 
-<!----------------------------->
-
-<details>
-<summary><h2>Graduated Projects</h2></summary>
-
+Git repositories:
+1. Braingeneerspy: [https://github.com/braingeneers/braingeneerspy](https://github.com/braingeneers/braingeneerspy)
+2. Braingeneers Docker Images: [https://github.com/braingeneers/braingeneers-docker-images](https://github.com/braingeneers/braingeneers-docker-images)
+3. Braingeneers Research Template: [https://github.com/braingeneers/research-template](https://github.com/braingeneers/research-template)
+Education organization: [https://github.com/Braingeneers-Education](https://github.com/Braingeneers-Education)
 
 ### Neglected Diagnostics (neglected-diagnostics)
 
