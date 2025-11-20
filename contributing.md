@@ -6,7 +6,9 @@ We welcome contributions from students, researchers, engineers, and the wider op
 This guide outlines expectations for contributing code, documentation, and ideas across all repositories in the [**uw-ssec**](https://github.com/uw-ssec/) GitHub organization. Additionally, refer to [RSE Guidelines](https://rse-guidelines.readthedocs.io/en/latest/) for SSEC quick guides and practical tutorials.
 
 
-Individual repos may define additional rules — if so, those repo-specific rules take priority.
+> [!NOTE]
+> Individual repos may define additional rules — if so, those repo-specific rules take priority.
+
 
 ---
 ## Before You Start
