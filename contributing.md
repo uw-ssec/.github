@@ -3,7 +3,8 @@
 Thank you for your interest in contributing to the University of Washington’s **Scientific Software Engineering Center (SSEC)**.  
 We welcome contributions from students, researchers, engineers, and the wider open-source community.
 
-This guide outlines expectations for contributing code, documentation, and ideas across all repositories in the **uw-ssec** GitHub organization. Additionally, refer to https://github.com/uw-ssec/rse-guidelines for SSEC quick guides and practical tutorials.
+This guide outlines expectations for contributing code, documentation, and ideas across all repositories in the [**uw-ssec**](https://github.com/uw-ssec/) GitHub organization. Additionally, refer to [RSE Guidelines](https://rse-guidelines.readthedocs.io/en/latest/) for SSEC quick guides and practical tutorials.
+
 
 Individual repos may define additional rules — if so, those repo-specific rules take priority.
 
