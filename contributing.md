@@ -19,6 +19,8 @@ Before contributing, please:
 - Review any repo-level **CONTRIBUTING.md**, **CODE_OF_CONDUCT**, or developer docs
 - Check the **issue tracker** to see if someone is already addressing your idea
 - Comment on an issue before starting work (especially for new contributors)
+- If you think an issue can be broken down to a smaller sub-issue, feel free to create a new issue that you'd like to work on
+
 
 
 ## Do’s
