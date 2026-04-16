@@ -57,8 +57,6 @@ A curated slice of our active and recently archived work. See the [full portfoli
 
 - [tutorials](https://github.com/uw-ssec/tutorials) — SSEC tutorials on scientific computing, cloud, and AI topics
 - [rse-guidelines](https://github.com/uw-ssec/rse-guidelines) — Research software engineering guidelines we follow and evolve
-- [learning-open-source](https://github.com/uw-ssec/learning-open-source) — A gentle starting point for new open-source contributors
-- [codeuw](https://github.com/uw-ssec/codeuw) — Curated tasks for contributing to scientific software projects
 
 ---
 
