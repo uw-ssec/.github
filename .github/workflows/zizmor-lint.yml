@@ -1,0 +1,65 @@
+# Reusable zizmor workflow for uw-ssec repositories.
+#
+# Call this from any repo's workflow:
+#
+#   jobs:
+#     lint-workflows:
+#       permissions:
+#         contents: read
+#         security-events: write   # for SARIF upload; remove when enforce: true
+#       uses: uw-ssec/.github/.github/workflows/zizmor-lint.yml@main
+#       with:
+#         enforce: false   # set to true once all medium+ findings are resolved
+#
+# When enforce: false (default): findings are uploaded to GitHub Security tab
+# as SARIF but the job always passes — report-only mode for capturing baseline.
+# When enforce: true: any finding at min-severity causes the job to fail.
+
+name: Zizmor workflow security lint
+
+on:
+  workflow_call:
+    inputs:
+      enforce:
+        description: >
+          When false (default), findings are uploaded to the GitHub Security tab
+          via SARIF but the job always passes (report-only mode).
+          When true, any finding at or above min-severity causes the job to fail.
+        type: boolean
+        default: false
+      min-severity:
+        description: "Minimum finding severity to report (informational|low|medium|high)"
+        type: string
+        default: "medium"
+      workflows-path:
+        description: "Space-separated path(s) passed to zizmor"
+        type: string
+        default: ".github/workflows/"
+
+permissions: {}
+
+jobs:
+  zizmor:
+    name: zizmor
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # security-events: write is passed through from the calling job's permissions
+      # when enforce: false — required for SARIF upload to the GitHub Security tab.
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
+        with:
+          inputs: ${{ inputs.workflows-path }}
+          min-severity: ${{ inputs.min-severity }}
+          # advanced-security: true  → SARIF upload, job always passes (report-only)
+          # advanced-security: false → findings fail the job (enforcement)
+          advanced-security: ${{ !inputs.enforce }}
+          annotations: true

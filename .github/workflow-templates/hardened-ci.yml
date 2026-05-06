@@ -1,0 +1,105 @@
+# Hardened CI template for uw-ssec repositories
+# Copy to .github/workflows/ci.yml and customise (search for "REPLACE").
+#
+# Hardening patterns demonstrated:
+#   1. permissions: {} at the top level — deny all token scopes by default
+#   2. Job-level opt-in to only the minimum scopes required
+#   3. All third-party actions pinned to full 40-char commit SHAs (tag in comment)
+#   4. persist-credentials: false on every checkout
+#   5. Event data passed through env vars, never interpolated into run: steps
+#   6. zizmor scan job included — remove if you have a dedicated zizmor.yml
+#
+# Before using trusted publishing (PyPI / npm), see hardened-release-pypi.yml.
+
+name: CI  # REPLACE: rename to match your project
+
+on:
+  pull_request:
+    branches: [main]  # REPLACE: add release branches as needed
+  push:
+    branches: [main]
+
+# Deny all token permissions by default.
+# Each job below opts in to the minimum scopes it needs.
+permissions: {}
+
+jobs:
+
+  # --------------------------------------------------------------------------
+  # Tests
+  # --------------------------------------------------------------------------
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]  # REPLACE: adjust version list
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install package and dev dependencies
+        run: pip install -e ".[dev]"  # REPLACE: adjust install command
+
+      - name: Run tests
+        run: pytest  # REPLACE: adjust test command
+
+  # --------------------------------------------------------------------------
+  # Lint / pre-commit
+  # --------------------------------------------------------------------------
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run pre-commit hooks
+        uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
+
+  # --------------------------------------------------------------------------
+  # Workflow security scan (zizmor)
+  # Remove this job if you have a dedicated .github/workflows/zizmor.yml
+  # --------------------------------------------------------------------------
+  zizmor:
+    name: Workflow security scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # To upload findings to the GitHub Security tab, uncomment and add
+      # `advanced-security: "true"` / remove the two override lines below:
+      # security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          persist-credentials: false
+
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
+        with:
+          inputs: .github/workflows/
+          min-severity: medium
+          # Use PR/push annotations; no security-events: write needed.
+          # Remove these two lines and add security-events: write above to
+          # upload SARIF results to the GitHub Security tab instead.
+          advanced-security: "false"
+          annotations: "true"

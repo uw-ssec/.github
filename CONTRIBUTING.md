@@ -175,6 +175,18 @@ Made some changes and improvements.
 - Do not copy code from incompatible licenses  
 - Follow AI-usage restrictions when specified
 
+### GitHub Actions Security
+
+When adding or modifying GitHub Actions workflows, follow the **[Workflow Hardening Checklist](WORKFLOW_HARDENING_CHECKLIST.md)**. Key requirements:
+
+- `permissions: {}` at the top of every workflow file, with per-job opt-ins
+- All third-party actions pinned to full 40-character commit SHAs
+- `persist-credentials: false` on every `actions/checkout` step
+- No `pull_request_target` with checkout of the PR head ref
+- OIDC trusted publishing for PyPI/npm releases (no stored tokens)
+
+Use the [workflow templates](.github/workflow-templates/) in this repository as a starting point — they pass `zizmor` without modifications.
+
 ---
 
 # 🙌 Thank You

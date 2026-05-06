@@ -1,0 +1,6 @@
+{
+  "name": "Hardened PyPI Release (uw-ssec)",
+  "description": "Two-stage build/publish workflow using OIDC trusted publishing. No long-lived PyPI tokens. Protected release environment. Passes zizmor out of the box.",
+  "iconName": "package",
+  "categories": ["Continuous delivery"]
+}
