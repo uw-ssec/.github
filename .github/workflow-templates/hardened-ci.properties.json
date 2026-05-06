@@ -1,0 +1,6 @@
+{
+  "name": "Hardened CI (uw-ssec)",
+  "description": "CI template with deny-all permissions, SHA-pinned actions, persist-credentials: false, and zizmor scanning. Passes zizmor out of the box.",
+  "iconName": "shield",
+  "categories": ["Continuous integration", "Security"]
+}

@@ -1,0 +1,38 @@
+# zizmor baseline configuration for uw-ssec repositories
+# Copy this file to the root of any uw-ssec repository that uses GitHub Actions.
+# https://docs.zizmor.sh/configuration/
+#
+# Usage:
+#   zizmor --config zizmor.yml --min-severity medium .github/workflows/
+#
+# Or with the zizmor-action (add to your workflow):
+#   - uses: zizmorcore/zizmor-action@<sha> # <tag>
+#     with:
+#       args: --config zizmor.yml --min-severity medium .github/workflows/
+
+rules:
+  # Uncomment and extend the ignore list below to suppress known false positives
+  # in your repository. Always document WHY a finding is suppressed.
+
+  # unpinned-uses: flag actions not pinned to a full SHA
+  unpinned-uses:
+    # Example: suppress a specific line in a specific file
+    # ignore:
+    #   - .github/workflows/ci.yml:42
+    {}
+
+  # pull-request-target: flag potentially unsafe pull_request_target usage
+  pull-request-target:
+    {}
+
+  # template-injection: flag event data interpolated into run: steps
+  template-injection:
+    {}
+
+  # excessive-permissions: flag jobs with overly broad token scopes
+  excessive-permissions:
+    {}
+
+  # known-vulnerable-actions: flag actions with known CVEs
+  known-vulnerable-actions:
+    {}

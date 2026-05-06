@@ -1,0 +1,83 @@
+# Hardened PyPI release template for uw-ssec repositories
+# Copy to .github/workflows/release.yml and customise (search for "REPLACE").
+#
+# Hardening patterns demonstrated:
+#   1. permissions: {} at top level — deny all by default
+#   2. Build job: contents: read only
+#   3. Publish job: id-token: write only (OIDC trusted publishing — no stored token)
+#   4. Build and publish split into separate jobs — publish never sees source code
+#   5. Protected "release" environment — require environment reviewers before publishing
+#   6. persist-credentials: false on checkout
+#   7. All third-party actions pinned to full 40-char commit SHAs (tag in comment)
+#
+# Before use: set up trusted publishing at https://pypi.org/manage/account/publishing/
+#   Publisher: GitHub Actions
+#   Repository: <your-org>/<your-repo>   (REPLACE)
+#   Workflow filename: release.yml        (REPLACE if you rename this file)
+#   Environment: release
+#
+# Also create a "release" environment in your repo:
+#   Settings → Environments → New environment: release
+#   Add required reviewers to prevent accidental publishes.
+
+name: Release to PyPI  # REPLACE: rename if desired
+
+on:
+  release:
+    types: [published]
+
+# Deny all token permissions by default.
+permissions: {}
+
+jobs:
+
+  # --------------------------------------------------------------------------
+  # Build: unprivileged — no publish credentials, no id-token scope
+  # --------------------------------------------------------------------------
+  build:
+    name: Build distribution
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.x"
+
+      - name: Build sdist and wheel
+        run: pipx run build --sdist --wheel  # REPLACE: adjust if using hatch/flit/etc.
+
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+
+  # --------------------------------------------------------------------------
+  # Publish: id-token: write only; protected by "release" environment
+  # --------------------------------------------------------------------------
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment: release  # REQUIRES: environment reviewers configured in repo settings
+    permissions:
+      id-token: write  # OIDC trusted publishing — no PYPI_TOKEN secret needed
+
+    steps:
+      - name: Download dist artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # release/v1
