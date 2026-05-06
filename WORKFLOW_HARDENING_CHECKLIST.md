@@ -213,9 +213,39 @@ Select **"Require approval for first-time contributors"** (or the stricter **"Re
 
 ---
 
+
 ## 10. Add `zizmor` workflow scanning to CI
 
-Add a `zizmor.yml` to your `.github/workflows/` folder to automatically catch regressions:
+### Preferred: call the org reusable workflow
+
+Create `.github/workflows/zizmor.yml` in your repo:
+
+```yaml
+name: Workflow security scan
+on:
+  pull_request:
+    paths: [".github/workflows/**"]
+  push:
+    branches: [main]
+    paths: [".github/workflows/**"]
+
+permissions: {}
+
+jobs:
+  lint:
+    permissions:
+      contents: read
+      security-events: write   # SARIF upload to Security tab (remove when enforce: true)
+    uses: uw-ssec/.github/.github/workflows/zizmor-lint.yml@main
+    with:
+      enforce: false   # set to true once all medium+ findings are resolved
+```
+
+When `enforce: false` (the default), findings are uploaded to the GitHub Security tab as SARIF but the job always passes — good for capturing a baseline without blocking PRs. Flip to `enforce: true` (and drop `security-events: write`) once all `medium+` findings are resolved or acknowledged with per-line ignores in `zizmor.yml`.
+
+### Alternative: inline job
+
+If you need a self-contained workflow without the reusable dependency:
 
 ```yaml
 name: Workflow security scan
@@ -233,24 +263,24 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      security-events: write   # SARIF upload; remove when advanced-security: "false"
     steps:
-      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
       - uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
         with:
           inputs: .github/workflows/
           min-severity: medium
-          advanced-security: "false"
+          advanced-security: "true"   # report-only; change to "false" to enforce
           annotations: "true"
 ```
 
-Copy `zizmor.toml` from this repo to the root of your repository and adjust ignore rules as needed.
+Copy `zizmor.yml` from this repo to the root of your repository and adjust ignore rules as needed.
 
 ---
 
 ## Quick self-check
-
 Before merging any workflow change, verify:
 
 - [ ] `permissions: {}` at the top of the workflow file
