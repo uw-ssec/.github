@@ -1,0 +1,46 @@
+# Runs zizmor on every file in .github/workflow-templates/ to ensure all
+# hardened templates remain clean before they are published to maintainers.
+# Also scans any workflows in this .github repo itself.
+
+name: Lint workflow templates
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflow-templates/**"
+      - ".github/workflows/**"
+      - "zizmor.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflow-templates/**"
+      - ".github/workflows/**"
+      - "zizmor.yml"
+
+permissions: {}
+
+jobs:
+  zizmor:
+    name: zizmor
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          persist-credentials: false
+
+      - name: Lint workflow templates
+        uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
+        with:
+          # Scan both the templates and the workflows in this repo.
+          # --pedantic is intentional: templates are the gold standard;
+          # they should satisfy even informational-severity rules.
+          args: >-
+            --config zizmor.yml
+            --min-severity medium
+            .github/workflow-templates/
+            .github/workflows/
