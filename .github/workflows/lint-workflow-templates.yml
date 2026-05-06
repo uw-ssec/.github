@@ -29,18 +29,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
 
       - name: Lint workflow templates
         uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
         with:
-          # Scan both the templates and the workflows in this repo.
-          # --pedantic is intentional: templates are the gold standard;
-          # they should satisfy even informational-severity rules.
-          args: >-
-            --config zizmor.yml
-            --min-severity medium
-            .github/workflow-templates/
-            .github/workflows/
+          # Scan both the starter templates and the workflows in this repo.
+          inputs: .github/workflow-templates/ .github/workflows/
+          min-severity: medium
+          config: zizmor.yml
+          # Use inline annotations (visible in PR diff) rather than SARIF upload.
+          # To upload to the GitHub Security tab instead, remove these two lines
+          # and add `security-events: write` to this job's permissions block.
+          advanced-security: "false"
+          annotations: "true"

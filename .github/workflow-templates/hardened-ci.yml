@@ -40,12 +40,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -67,7 +67,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
 
@@ -83,16 +83,23 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      # Uncomment to upload SARIF results to GitHub Security tab:
+      # To upload findings to the GitHub Security tab, uncomment and add
+      # `advanced-security: "true"` / remove the two override lines below:
       # security-events: write
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
 
       - name: Run zizmor
         uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
         with:
-          args: --min-severity medium .github/workflows/
+          inputs: .github/workflows/
+          min-severity: medium
+          # Use PR/push annotations; no security-events: write needed.
+          # Remove these two lines and add security-events: write above to
+          # upload SARIF results to the GitHub Security tab instead.
+          advanced-security: "false"
+          annotations: "true"

@@ -59,10 +59,10 @@ jobs:
 
 | Action | SHA | Tag |
 |---|---|---|
-| `actions/checkout` | `34e114876b0b11c390a56381ad16ebd13914f8d5` | v4 |
-| `actions/setup-python` | `a26af69be951a213d495a4c3e4e4022e16d87065` | v5 |
-| `actions/upload-artifact` | `ea165f8d65b6e75b540449e92b4886f43607fa02` | v4 |
-| `actions/download-artifact` | `d3f86a106a0bac45b974a628896c90dbdf5c8093` | v4 |
+| `actions/checkout` | `93cb6efe18208431cddfb8368fd83d5badbf9bfd` | v5.0.1 |
+| `actions/setup-python` | `a309ff8b426b58ec0e2a45f0f869d46889d02405` | v6.2.0 |
+| `actions/upload-artifact` | `043fb46d1a93c77aae656e7c1c64a875d1fc6a0a` | v7.0.1 |
+| `actions/download-artifact` | `3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c` | v8.0.1 |
 | `pypa/gh-action-pypi-publish` | `cef221092ed1bacb1cc03d23a2d87d1d172e277b` | release/v1 |
 | `pre-commit/action` | `2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd` | v3.0.1 |
 | `zizmorcore/zizmor-action` | `b1d7e1fb5de872772f31590499237e7cce841e8e` | v0.5.3 |
@@ -234,12 +234,15 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
         with:
           persist-credentials: false
       - uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
         with:
-          args: --min-severity medium .github/workflows/
+          inputs: .github/workflows/
+          min-severity: medium
+          advanced-security: "false"
+          annotations: "true"
 ```
 
 Copy `zizmor.toml` from this repo to the root of your repository and adjust ignore rules as needed.
