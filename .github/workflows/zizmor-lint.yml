@@ -62,4 +62,5 @@ jobs:
           # advanced-security: true  → SARIF upload, job always passes (report-only)
           # advanced-security: false → findings fail the job (enforcement)
           advanced-security: ${{ !inputs.enforce }}
-          annotations: true
+          # annotations are mutually exclusive with advanced-security: true
+          annotations: ${{ inputs.enforce }}
